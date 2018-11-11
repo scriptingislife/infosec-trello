@@ -1,0 +1,13 @@
+certifi
+chardet
+feedparser
+idna
+oauthlib
+py-trello
+python-dateutil
+pytz
+PyYAML
+requests
+requests-oauthlib
+six
+urllib3
