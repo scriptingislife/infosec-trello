@@ -1,5 +1,7 @@
 # Infosec Trello
-Live Updating Infosec Dashboard on Trello
+Live updating infosec news dashboard on Trello.
+
+https://trello.com/b/rKgxV8ZS/infosec-news
 
 # Run your own
 
