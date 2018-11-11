@@ -50,12 +50,14 @@ class TrelloCLI:
                 return l
         return None
 
+
     def get_label_by_name(self, label_name):
         labels = self.board.get_labels()
         for label in labels:
             if label.name == label_name:
                 return label
         return None
+
 
     def archive_list_cards(self, trl_list):
         lst = self.get_list_by_name(trl_list)
@@ -66,6 +68,7 @@ class TrelloCLI:
         lst = self.get_list_by_name(list_name)
         lst.add_card(card_name, card_desc, labels)
 
+
     def get_card_by_name(self, list_name, card_name):
         lst = self.get_list_by_name(list_name)
         cards = lst.list_cards()
@@ -74,8 +77,10 @@ class TrelloCLI:
                 return card
         return None
 
+
     def add_label(self, name, color):
         self.board.add_label(name, color)
+
 
 class UpdatedList:
     def __init__(self, trello_client, name, feed):
@@ -83,18 +88,18 @@ class UpdatedList:
         self.name = name
         self.feed = feed
 
-    def update_list(self):
-        trl_list = self.cli.get_list_by_name(self.name)
-        if trl_list:
-            if trl_list.cardsCnt():
-                self.cli.archive_list_cards(self.name)
-            for entry in self.feed.get_feed():
-                try:
-                    self.cli.add_card(self.name, entry['title'], entry['link'])
-                    sleep(0.04)
-                except trello.exceptions.ResourceUnavailable:
-                    sleep(10)
 
-        else:
-            self.cli.board.add_list(self.name, pos='bottom')
+    def update_list(self):
+        try:
+            trl_list = self.cli.get_list_by_name(self.name)
+            if trl_list:
+                if trl_list.cardsCnt():
+                    self.cli.archive_list_cards(self.name)
+                for entry in self.feed.get_feed():
+                    self.cli.add_card(self.name, entry['title'], entry['link'])
+                    sleep(0.1)
+            else:
+                self.cli.board.add_list(self.name, pos='bottom')
             self.update_list()
+        except trello.exceptions.ResourceUnavailable:
+            sleep(10)
