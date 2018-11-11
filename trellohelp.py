@@ -1,6 +1,7 @@
 import yaml
 import trello
 import requests
+import rsshelp
 from time import sleep
 
 class TrelloCLI:
@@ -8,6 +9,18 @@ class TrelloCLI:
         self.auth_file = authfile
         self.cli = self.authenticate()
         self.board = self.get_board_by_name(board)
+        if board and self.board is None:
+            print('[!] Board "{}" not found. Creating it.'.format(board))
+            self.init_board(board)
+
+
+    def init_board(self, board):
+        self.cli.add_board(board)
+        self.board = self.get_board_by_name(board)
+        for l in self.board.list_lists():
+            l.close()
+        self.board.add_label('Recent', 'green')
+        self.board.add_label('Today', 'yellow')
 
 
     def set_board(self, board):
@@ -79,10 +92,6 @@ class TrelloCLI:
         return None
 
 
-    def add_label(self, name, color):
-        self.board.add_label(name, color)
-
-
 class UpdatedList:
     def __init__(self, trello_client, name, feed, limit=None):
         self.cli = trello_client
@@ -91,6 +100,31 @@ class UpdatedList:
         self.limit = limit
 
 
+    def create_labels(self, entry):
+        # Label card as 'Today' or 'Recent' if it meets the criteria in rsshelp
+        label_lst = []
+        recents = rsshelp.is_recent(entry)
+        if recents['today']:
+            lbl_today = self.cli.get_label_by_name('Today')
+
+            # Make 'Today' label if it doesn't exist
+            if lbl_today is None:
+                self.cli.board.add_label('Today', 'yellow')
+                lbl_today = self.cli.get_label_by_name('Today')
+            label_lst.append(lbl_today)
+
+            if recents['recent']:
+                lbl_recent = self.cli.get_label_by_name('Recent')
+                
+                # Make 'Recent' label if it doesn't exist
+                if lbl_recent is None:
+                    self.cli.board.add_label('Recent', 'green')
+                    lbl_recent = self.cli.get_label_by_name('Recent')
+                label_lst.append(lbl_recent)
+
+        return label_lst
+        
+
     def update_list(self):
         print('[~] Updating {}'.format(self.name))
         try:
@@ -98,12 +132,19 @@ class UpdatedList:
             if trl_list:
                 if trl_list.cardsCnt():
                     self.cli.archive_list_cards(self.name)
+                
                 for entry in self.feed.get_feed(limit=self.limit):
-                    self.cli.add_card(self.name, entry['title'], entry['link'])
+                    
+                    label_lst = self.create_labels(entry)
+
+                    self.cli.add_card(self.name, entry['title'], entry['link'], labels=label_lst)
                     sleep(0.1)
+
             else:
+                print('[!] List "{}" not found. Creating it.'.format(self.name))
                 self.cli.board.add_list(self.name, pos='bottom')
                 self.update_list()
+        
         except (trello.exceptions.ResourceUnavailable, requests.exceptions.ConnectionError):
             print('[!] Rate limit exceeded.')
             sleep(10)
