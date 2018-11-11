@@ -1,5 +1,6 @@
 import yaml
 import trello
+import requests
 from time import sleep
 
 class TrelloCLI:
@@ -83,23 +84,26 @@ class TrelloCLI:
 
 
 class UpdatedList:
-    def __init__(self, trello_client, name, feed):
+    def __init__(self, trello_client, name, feed, limit=None):
         self.cli = trello_client
         self.name = name
         self.feed = feed
+        self.limit = limit
 
 
     def update_list(self):
+        print('[~] Updating {}'.format(self.name))
         try:
             trl_list = self.cli.get_list_by_name(self.name)
             if trl_list:
                 if trl_list.cardsCnt():
                     self.cli.archive_list_cards(self.name)
-                for entry in self.feed.get_feed():
+                for entry in self.feed.get_feed(limit=self.limit):
                     self.cli.add_card(self.name, entry['title'], entry['link'])
                     sleep(0.1)
             else:
                 self.cli.board.add_list(self.name, pos='bottom')
-            self.update_list()
-        except trello.exceptions.ResourceUnavailable:
+                self.update_list()
+        except (trello.exceptions.ResourceUnavailable, requests.exceptions.ConnectionError):
+            print('[!] Rate limit exceeded.')
             sleep(10)

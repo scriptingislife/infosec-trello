@@ -15,5 +15,8 @@ class RSSFeed:
         for entry in entries:
             print(entry['title'])
 
-    def get_feed(self):
-        return self.feed['entries']
+    def get_feed(self, limit=None):
+        if limit:
+            return self.feed['entries'][:limit]
+        else:
+            return self.feed['entries']
