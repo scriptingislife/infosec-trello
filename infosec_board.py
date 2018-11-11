@@ -2,7 +2,7 @@ from trellohelp import TrelloCLI, UpdatedList
 from rsshelp import RSSFeed
 
 def main():
-    cli = TrelloCLI(board='API Test')
+    cli = TrelloCLI(board='Infosec News')
 
     # Why the prefix? I don't know.
     # r = subreddit
