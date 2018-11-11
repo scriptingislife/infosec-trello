@@ -37,10 +37,14 @@ def is_recent(entry, limit=4):
     except AttributeError:
         return {'today': True, 'recent': True}
 
-    feed_elapsed = datetime.now() - datetime.fromtimestamp(mktime(feed_date))
+    now = datetime.utcnow()
+    then = datetime.fromtimestamp(mktime(feed_date))
+
+    feed_elapsed = now - then
     if feed_elapsed.days == 0:
-        today = True
-        if feed_elapsed.seconds / 3600 > limit:
+        if now.hour >= then.hour:
+            today = True
+        if abs(now.hour - then.hour) > limit:
             recent = True
 
     return {'today': today, 'recent': recent}

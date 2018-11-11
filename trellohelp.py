@@ -79,6 +79,7 @@ class TrelloCLI:
 
 
     def add_card(self, list_name, card_name, card_desc=None, labels=None):
+        # TODO: Add use card.attach(url="") as linking mechanism
         lst = self.get_list_by_name(list_name)
         lst.add_card(card_name, card_desc, labels)
 
