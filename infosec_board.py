@@ -12,7 +12,7 @@ def main():
     w_krebs = UpdatedList(cli, 'Krebs on Security', RSSFeed('https://krebsonsecurity.com/feed/'))
     w_schneier = UpdatedList(cli, 'Schneier on Security', RSSFeed('https://www.schneier.com/blog/atom.xml'))
     
-    n_wired = UpdatedList(cli, 'Wired Security', RSSFeed('https://www.wired.com/feed/security/rss'))
+    n_wired = UpdatedList(cli, 'Wired - Security', RSSFeed('https://www.wired.com/feed/security/rss'))
     n_motherboard = UpdatedList(cli, 'Motherboard', RSSFeed('https://motherboard.vice.com/en_us/rss'))
 
     board_lists = [r_netsec, r_redteamsec, r_blueteamsec, r_asknetsec, w_krebs, w_schneier, n_wired, n_motherboard]
