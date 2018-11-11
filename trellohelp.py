@@ -1,6 +1,6 @@
 import yaml
-from trello import TrelloClient
-
+import trello
+from time import sleep
 
 class TrelloCLI:
     def __init__(self, authfile='auth/trello.yml', board=None):
@@ -30,7 +30,7 @@ class TrelloCLI:
 
     def authenticate(self):
         creds = self.get_creds()
-        client = TrelloClient(
+        client = trello.TrelloClient(
             api_key = creds['trello_api_key'],
             api_secret = creds['trello_api_secret'],
             token = creds['trello_auth_token']
@@ -89,7 +89,12 @@ class UpdatedList:
             if trl_list.cardsCnt():
                 self.cli.archive_list_cards(self.name)
             for entry in self.feed.get_feed():
-                self.cli.add_card(self.name, entry['title'], entry['link'])
+                try:
+                    self.cli.add_card(self.name, entry['title'], entry['link'])
+                    sleep(0.04)
+                except trello.exceptions.ResourceUnavailable:
+                    sleep(10)
+
         else:
             self.cli.board.add_list(self.name, pos='bottom')
             self.update_list()
