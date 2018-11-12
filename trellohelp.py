@@ -138,7 +138,8 @@ class UpdatedList:
                     
                     label_lst = self.create_labels(entry)
 
-                    self.cli.add_card(self.name, entry['title'], entry['link'], labels=label_lst)
+                    new_card = trl_list.add_card(entry['title'], labels=label_lst)
+                    new_card.attach(url=entry['link'])
                     sleep(0.1)
 
             else:
