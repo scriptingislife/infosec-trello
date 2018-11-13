@@ -30,3 +30,11 @@ pip install -r requirements.txt
 ## Run
 
 `python infosec_board.py`
+
+## Automatic Updates
+
+Enter the cron job editor using `crontab -e`. Select an editor if prompted. Add the bottom of the file add the following line.
+
+`0 * * * * cd INSTALL_LOCATION/infosec-trello && ./cron.sh`
+
+Replace `INSTALL_LOCATION` with the directory you cloned the repository to. This default job runs every hour on the hour. Use a timeframe like `0 */4 * * *` to run the script every four hours.
