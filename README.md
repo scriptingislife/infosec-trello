@@ -1,5 +1,5 @@
 # Infosec Trello
-Live updating infosec news dashboard on Trello.
+Single pane of glass infosec news dashboard on using Trello.
 
 https://trello.com/b/rKgxV8ZS/infosec-news
 
