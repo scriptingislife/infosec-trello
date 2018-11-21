@@ -1,5 +1,5 @@
 # Infosec Trello
-Single pane of glass infosec news dashboard on using Trello.
+Single pane of glass infosec news dashboard using Trello.
 
 https://trello.com/b/rKgxV8ZS/infosec-news
 
