@@ -14,15 +14,18 @@ def main():
     r_blueteamsec = UpdatedList(cli, '/r/blueteamsec', RSSFeed('https://reddit.com/r/blueteamsec/.rss'), limit=5)
     r_asknetsec = UpdatedList(cli, '/r/asknetsec', RSSFeed('https://reddit.com/r/asknetsec/.rss'), limit=5)
 
-    b_krebs = UpdatedList(cli, 'Krebs on Security', RSSFeed('https://krebsonsecurity.com/feed/'))
+    #b_krebs = UpdatedList(cli, 'Krebs on Security', RSSFeed('https://krebsonsecurity.com/feed/'))
     b_schneier = UpdatedList(cli, 'Schneier on Security', RSSFeed('https://www.schneier.com/blog/atom.xml'))
     
+    n_darkreading = UpdatedList(cli, 'Dark Reading', RSSFeed('https://www.darkreading.com/rss_simple.asp'))
+    n_bleepingcomputer = UpdatedList(cli, 'Bleeping Computer', RSSFeed('https://www.bleepingcomputer.com/feed/'))
+    n_theregister = UpdatedList(cli, 'The Register - Security', RSSFeed('https://www.theregister.co.uk/security/headlines.atom'), limit=20)
     n_wired = UpdatedList(cli, 'Wired - Security', RSSFeed('https://www.wired.com/feed/security/rss'))
     n_motherboard = UpdatedList(cli, 'Motherboard', RSSFeed('https://motherboard.vice.com/en_us/rss'))
-    n_thehackernews = UpdatedList(cli, 'The Hacker News', RSSFeed('https://thehackernews.com/feeds/posts/default'))
+    #n_thehackernews = UpdatedList(cli, 'The Hacker News', RSSFeed('https://thehackernews.com/feeds/posts/default'))
     n_zdnet = UpdatedList(cli, 'ZDNet', RSSFeed('https://www.zdnet.com/news/rss.xml'))
 
-    board_lists = [r_netsec, b_krebs, b_schneier, n_thehackernews, n_zdnet, n_wired, n_motherboard, r_redteamsec, r_blueteamsec, r_asknetsec]
+    board_lists = [r_netsec, n_darkreading, n_bleepingcomputer, n_theregister, b_schneier, n_zdnet, n_wired, n_motherboard, r_redteamsec, r_blueteamsec, r_asknetsec]
     for board in board_lists:
         board.update_list()
 
