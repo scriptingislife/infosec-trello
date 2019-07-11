@@ -1,8 +1,30 @@
 from trellohelp import TrelloCLI, UpdatedList
 from rsshelp import RSSFeed
+import yaml
+import os
 
 def main():
-    cli = TrelloCLI(board='Infosec News')
+    try:
+        with open('config.yml', 'r') as f:
+            config_file = yaml.safe_load(f)
+        if config['trello_api_key'] is None:
+            config['trello_api_key'] = os.environ.get('TRELLO_API_KEY')
+        
+        if config['trello_api_secret'] is None:
+            config['trello_api_secret'] = os.environ.get('TRELLO_API_SECRET')
+        
+        if config['trello_auth_token'] is None:
+            config['trello_auth_token'] = os.environ.get('TRELLO_AUTH_TOKEN')
+        
+        if config['board'] is None:
+            config['board'] = os.environ.get('INFOSEC_BOARD')
+    except FileNotFoundError as e:
+        config['trello_api_key'] = os.environ.get('TRELLO_API_KEY')
+        config['trello_api_secret'] = os.environ.get('TRELLO_API_SECRET')
+        config['trello_auth_token'] = os.environ.get('TRELLO_AUTH_TOKEN')
+        config['board'] = os.environ.get('INFOSEC_BOARD')
+
+    cli = TrelloCLI(board=config['board'])
 
     # Why the prefix? I don't know.
     # r = subreddit
