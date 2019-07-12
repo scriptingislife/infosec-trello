@@ -5,11 +5,11 @@ import rsshelp
 from time import sleep
 
 class TrelloCLI:
-    def __init__(self, authfile='auth/trello.yml', board=None):
-        self.auth_file = authfile
+    def __init__(self, config):
+        self.config = config
         self.cli = self.authenticate()
-        self.board = self.get_board_by_name(board)
-        if board and self.board is None:
+        self.board = self.get_board_by_name(self.config['board'])
+        if self.board is None:
             print('[!] Board "{}" not found. Creating it.'.format(board))
             self.init_board(board)
 
@@ -43,13 +43,12 @@ class TrelloCLI:
 
 
     def authenticate(self):
-        creds = self.get_creds()
+        #creds = self.get_creds()
         client = trello.TrelloClient(
-            api_key = creds['trello_api_key'],
-            api_secret = creds['trello_api_secret'],
-            token = creds['trello_auth_token']
+            api_key = self.config['trello_api_key'],
+            api_secret = self.config['trello_api_secret'],
+            token = self.config['trello_auth_token']
         )
-        del creds
         return client
 
 

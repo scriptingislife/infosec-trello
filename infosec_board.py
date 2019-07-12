@@ -3,10 +3,14 @@ from rsshelp import RSSFeed
 import yaml
 import os
 
+def lambda_handler(event, context):
+    main()
+
 def main():
+    config = dict()
     try:
         with open('config.yml', 'r') as f:
-            config_file = yaml.safe_load(f)
+            config = yaml.safe_load(f)
         if config['trello_api_key'] is None:
             config['trello_api_key'] = os.environ.get('TRELLO_API_KEY')
         
@@ -22,9 +26,9 @@ def main():
         config['trello_api_key'] = os.environ.get('TRELLO_API_KEY')
         config['trello_api_secret'] = os.environ.get('TRELLO_API_SECRET')
         config['trello_auth_token'] = os.environ.get('TRELLO_AUTH_TOKEN')
-        config['board'] = os.environ.get('INFOSEC_BOARD')
+        config['board'] = os.environ.get('TRELLO_BOARD')
 
-    cli = TrelloCLI(board=config['board'])
+    cli = TrelloCLI(config=config)
 
     # Why the prefix? I don't know.
     # r = subreddit
