@@ -76,6 +76,12 @@ class TrelloCLI:
         lst = self.get_list_by_name(trl_list)
         lst.archive_all_cards()
 
+    def delete_list_cards(self, trl_list):
+        lst = self.get_list_by_name(trl_list)
+        cards = lst.list_cards()
+        for card in cards:
+            card.delete()
+
 
     def add_card(self, list_name, card_name, card_desc=None, labels=None):
         # TODO: Add use card.attach(url="") as linking mechanism
@@ -131,7 +137,8 @@ class UpdatedList:
             trl_list = self.cli.get_list_by_name(self.name)
             if trl_list:
                 if trl_list.cardsCnt():
-                    self.cli.archive_list_cards(self.name)
+                    #self.cli.archive_list_cards(self.name)
+                    self.cli.delete_list_cards(self.name)
                 
                 for entry in self.feed.get_feed(limit=self.limit):
                     
