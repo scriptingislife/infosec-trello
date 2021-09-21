@@ -10,8 +10,8 @@ class TrelloCLI:
         self.cli = self.authenticate()
         self.board = self.get_board_by_name(self.config['board'])
         if self.board is None:
-            print('[!] Board "{}" not found. Creating it.'.format(board))
-            self.init_board(board)
+            print('[!] Board "{}" not found. Creating it.'.format(config['board']))
+            self.init_board(config['board'])
 
 
     def init_board(self, board):
@@ -81,6 +81,7 @@ class TrelloCLI:
         cards = lst.list_cards()
         for card in cards:
             card.delete()
+            sleep(0.2)
 
 
     def add_card(self, list_name, card_name, card_desc=None, labels=None):
@@ -146,7 +147,7 @@ class UpdatedList:
 
                     new_card = trl_list.add_card(entry['title'], labels=label_lst)
                     new_card.attach(url=entry['link'])
-                    sleep(0.1)
+                    sleep(0.2)
 
             else:
                 print('[!] List "{}" not found. Creating it.'.format(self.name))

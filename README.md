@@ -9,9 +9,9 @@ https://trello.com/b/rKgxV8ZS/infosec-news
 
 ## Trello API and Authentication
 
-`mkdir auth && touch auth/trello.yml`
+`touch config.yml`
 
-Your key, secret, and token can be found on the [Trello Developers](https://trello.com/app-key) page. Use the link where it says `you can manually generate a Token` to get your token. Add them to `auth/trello.yml`
+Your key, secret, and token can be found on the [Trello Developers](https://trello.com/app-key) page. Use the link where it says `you can manually generate a Token` to get your token. Add them to `config.yml`
 
 ```yaml
 ---

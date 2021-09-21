@@ -1,6 +1,10 @@
 # Project Specific
+settings.json
+activate/
 auth/
 config.yml
+function.zip
+package/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
