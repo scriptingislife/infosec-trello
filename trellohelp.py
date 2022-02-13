@@ -81,7 +81,7 @@ class TrelloCLI:
         cards = lst.list_cards()
         for card in cards:
             card.delete()
-            sleep(0.2)
+            sleep(0.1)
 
 
     def add_card(self, list_name, card_name, card_desc=None, labels=None):
@@ -100,7 +100,7 @@ class TrelloCLI:
 
 
 class UpdatedList:
-    def __init__(self, trello_client, name, feed, limit=None):
+    def __init__(self, trello_client, name, feed, limit=10):
         self.cli = trello_client
         self.name = name
         self.feed = feed
@@ -147,7 +147,7 @@ class UpdatedList:
 
                     new_card = trl_list.add_card(entry['title'], labels=label_lst)
                     new_card.attach(url=entry['link'])
-                    sleep(0.2)
+                    sleep(0.1)
 
             else:
                 print('[!] List "{}" not found. Creating it.'.format(self.name))
